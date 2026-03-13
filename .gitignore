@@ -1,0 +1,17 @@
+# Backend
+backend/venv/
+backend/.env
+backend/__pycache__/
+backend/*.pyc
+
+# Frontend
+frontend-web/node_modules/
+frontend-web/.env
+
+# Flutter
+flutter-app/.dart_tool/
+flutter-app/build/
+
+# Base de datos
+*.db
+*.sqlite
