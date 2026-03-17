@@ -18,3 +18,4 @@ class Pedido(Base):
     mesa = relationship("Mesa", back_populates="pedido")
     pedido_productos = relationship("Pedido_producto", back_populates="pedido")
     domicilio = relationship("Domicilio", back_populates="pedido")
+    pago = relationship("Pago", back_populates="pedido")
