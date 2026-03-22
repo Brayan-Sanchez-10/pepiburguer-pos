@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from database import engine, Base
-from routers import usuario, turno, mesa, categoria, producto, pedido, pedido_producto, domicilio, pago
+from routers import usuario, turno, mesa, categoria, producto, pedido, pedido_producto, domicilio, pago, auth
 
 app = FastAPI(title= "Pepiburguer POS")
 
@@ -17,6 +17,7 @@ app.include_router(pedido.router)
 app.include_router(pedido_producto.router)
 app.include_router(domicilio.router)
 app.include_router(pago.router)
+app.include_router(auth.router)
 
 @app.get("/")
 def root():

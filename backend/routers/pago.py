@@ -4,10 +4,12 @@ from models.pago import Pago
 from models.pedido import Pedido
 from schemas.pago import Pago_create, Pago_response, Pago_update
 from database import get_db
+from middleware.auth import verificar_token
 
 router = APIRouter(
     prefix="/pagos",
-    tags=["Pagos"]
+    tags=["Pagos"],
+    dependencies= [Depends(verificar_token)]
 )
 
 @router.get("/", response_model=list[Pago_response], status_code=status.HTTP_200_OK)

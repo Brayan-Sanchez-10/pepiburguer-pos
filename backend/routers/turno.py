@@ -3,10 +3,12 @@ from sqlalchemy.orm import Session
 from database import get_db
 from models.turno import Turno
 from schemas.turno import Turno_create, Turno_update, Turno_response, Turno_close
+from middleware.auth import verificar_token
 
 router = APIRouter(
     prefix="/turnos",
-    tags=["Turnos"]
+    tags=["Turnos"],
+    dependencies = [Depends(verificar_token)]
 )
 
 @router.get("/", response_model=list[Turno_response], status_code=status.HTTP_200_OK)

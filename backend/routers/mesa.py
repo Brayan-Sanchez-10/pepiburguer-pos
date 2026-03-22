@@ -3,10 +3,12 @@ from sqlalchemy.orm import Session
 from models.mesa import Mesa
 from schemas.mesa import Mesa_create, Mesa_ocupada, Mesa_response, Mesa_update
 from database import get_db
+from middleware.auth import verificar_token
 
 router = APIRouter(
     prefix="/mesas",
-    tags=["Mesas"]
+    tags=["Mesas"],
+    dependencies = [Depends(verificar_token)]
 )
 
 @router.get("/", response_model = list[Mesa_response], status_code=status.HTTP_200_OK)

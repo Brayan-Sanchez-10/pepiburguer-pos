@@ -3,10 +3,12 @@ from sqlalchemy.orm import Session
 from models.producto import Producto
 from schemas.producto import Producto_response, Producto_create, Producto_update
 from database import get_db
+from middleware.auth import verificar_token
 
 router = APIRouter(
     prefix="/productos",
-    tags=["Productos"]
+    tags=["Productos"],
+    dependencies= [Depends(verificar_token)]
 )
 
 @router.get("/", response_model= list[Producto_response], status_code= status.HTTP_200_OK)

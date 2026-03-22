@@ -3,10 +3,12 @@ from sqlalchemy.orm import Session
 from models.domicilio import Domicilio
 from schemas.domicilio import Domicilio_create, Domicilio_response, Domicilio_update
 from database import get_db
+from middleware.auth import verificar_token
 
 router = APIRouter(
     prefix= "/domicilios",
-    tags= ["Domicilios"]
+    tags= ["Domicilios"],
+    dependencies = [Depends(verificar_token)]
 )
 
 @router.get("/", response_model = list[Domicilio_response], status_code= status.HTTP_200_OK)

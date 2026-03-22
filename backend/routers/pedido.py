@@ -3,10 +3,12 @@ from sqlalchemy.orm import Session
 from models.pedido import  Pedido
 from schemas.pedido import Pedido_create,  Pedido_response,  Pedido_update
 from database import get_db
+from middleware.auth import verificar_token
 
 router = APIRouter(
     prefix="/pedidos",
-    tags=["Pedidos"]
+    tags=["Pedidos"],
+    dependencies=[Depends(verificar_token)]
 )
 
 @router.get("/", response_model= list[Pedido_response], status_code= status.HTTP_200_OK)
