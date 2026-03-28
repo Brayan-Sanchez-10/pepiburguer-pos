@@ -12,4 +12,4 @@ class Producto(Base):
     disponible = Column(Boolean, default=True, nullable=False)
 
     categoria = relationship("Categoria", back_populates="producto")
-    pedido_producto = relationship("Pedido_producto", back_populates="producto")
+    venta_productos = relationship("Pedido_producto", back_populates="producto")

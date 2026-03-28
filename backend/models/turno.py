@@ -16,3 +16,4 @@ class Turno(Base):
     estado_turno = Column(Enum('iniciado','terminado', name='estados_turno'), nullable=False)
 
     usuario = relationship("Usuario", back_populates="turno")
+    pedido = relationship("Pedido", back_populates="turno")
