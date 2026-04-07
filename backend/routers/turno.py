@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.orm import Session
+from datetime import datetime
 from database import get_db
 from models.turno import Turno
 from schemas.turno import Turno_create, Turno_update, Turno_response, Turno_close
@@ -8,7 +9,7 @@ from middleware.auth import verificar_token, verificar_admin
 router = APIRouter(
     prefix="/turnos",
     tags=["Turnos"],
-    dependencies = [Depends(verificar_admin)]
+    dependencies=[Depends(verificar_admin)]
 )
 
 @router.get("/", response_model=list[Turno_response], status_code=status.HTTP_200_OK)
@@ -87,11 +88,9 @@ def cerrar_turno(id: int, turno: Turno_close, db: Session = Depends(get_db)):
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"El turno con el id: {id} no existe"
         )
-    
-    if turno.fecha_turno_fin:
-        existe.fecha_turno_fin = turno.fecha_turno_fin
-    if turno.estado_turno:
-        existe.estado_turno = turno.estado_turno
+
+    existe.fecha_turno_fin = datetime.now()
+    existe.estado_turno = turno.estado_turno
 
     db.commit()
     db.refresh(existe)

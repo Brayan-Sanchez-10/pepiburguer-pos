@@ -22,7 +22,8 @@ function Login() {
 
             login(response.data.access_token, {
                 nombre: response.data.nombre,
-                rol: response.data.rol
+                rol: response.data.rol,
+                cedula: response.data.id_usuario  
             })
 
             navigate('/dashboard')

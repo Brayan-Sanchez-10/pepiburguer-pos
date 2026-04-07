@@ -1,7 +1,7 @@
 from sqlalchemy import Integer, String, Column, Enum, DateTime, ForeignKey, Numeric
 from sqlalchemy.orm import relationship
 from database import Base
-from datetime import datetime
+from datetime import datetime, timezone
 
 class Turno(Base):
     __tablename__ = "Turno"
