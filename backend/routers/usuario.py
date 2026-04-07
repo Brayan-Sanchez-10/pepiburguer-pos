@@ -4,12 +4,12 @@ from database import get_db
 from models.usuario import Usuario
 from schemas.usuario import Usuario_create, Usuario_response, Usuario_update
 from passlib.context import CryptContext
-from middleware.auth import verificar_token
+from middleware.auth import verificar_token, verificar_admin
 
 router = APIRouter(
     prefix="/usuarios",
     tags=["Usuarios"],
-    dependencies=[Depends(verificar_token)]
+    dependencies=[Depends(verificar_admin)]
 )
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

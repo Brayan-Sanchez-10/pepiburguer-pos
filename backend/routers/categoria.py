@@ -3,11 +3,11 @@ from sqlalchemy.orm import Session
 from models.categoria import Categoria
 from schemas.categoria import Categoria_create, Categoria_response, Categoria_update
 from database import get_db
-from middleware.auth import verificar_token
+from middleware.auth import verificar_token, verificar_admin
 router = APIRouter(
     prefix="/categorias",
     tags=["Categorias"],
-    dependencies= [Depends(verificar_token)]
+    dependencies= [Depends(verificar_admin)]
 )
 
 @router.get("/", response_model=list[Categoria_response], status_code=status.HTTP_200_OK)

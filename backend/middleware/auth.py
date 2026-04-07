@@ -45,3 +45,11 @@ def verificar_token(token: str = Depends(oauth2_scheme), db: Session = Depends(g
         raise excepcion
     
     return usuario
+
+def verificar_admin(usuario_actual = Depends(verificar_token)):
+    if usuario_actual.rol_usuario != "administrador":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="No tienes permisos para realizar esta accion"
+        )
+    return usuario_actual
