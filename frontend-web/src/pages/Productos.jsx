@@ -32,6 +32,10 @@ function Productos() {
 
     const handleCrear = async (e) => {
         e.preventDefault()
+        if (!idCategoria) {
+        alert('Debes seleccionar una categoría antes de crear un producto')
+        return
+        }
         await crearProducto({
             id_categoria: parseInt(idCategoria),
             nombre_producto: nombre,

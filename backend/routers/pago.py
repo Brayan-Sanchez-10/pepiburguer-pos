@@ -52,7 +52,7 @@ def crear_pago(pago: Pago_create, db: Session = Depends(get_db)):
         )
 
     if pago.tipo_pago == "efectivo":
-        cambio = pago.monto_recibido - pedido.valor_total
+        cambio = pago.monto_recibido - float(pedido.valor_total)
     else:
         cambio = 0
 
@@ -67,6 +67,13 @@ def crear_pago(pago: Pago_create, db: Session = Depends(get_db)):
     db.add(nuevo_pago)
     db.commit()
     db.refresh(nuevo_pago)
+
+    db.add(nuevo_pago)
+
+# Actualizar estado del pedido
+    pedido.estado_pedido = "cancelado"
+    db.commit()
+
 
     return nuevo_pago
 

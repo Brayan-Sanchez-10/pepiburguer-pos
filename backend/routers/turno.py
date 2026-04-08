@@ -4,6 +4,7 @@ from datetime import datetime
 from database import get_db
 from models.turno import Turno
 from schemas.turno import Turno_create, Turno_update, Turno_response, Turno_close
+from models.pedido import Pedido
 from middleware.auth import verificar_token, verificar_admin
 
 router = APIRouter(
