@@ -21,6 +21,10 @@ class Turno_close(BaseModel):
     fecha_turno_fin: Optional[datetime] = None
     estado_turno: Turno_estado = Turno_estado.terminado
 
+class Turno_egreso(BaseModel):
+    monto: float
+    descripcion: Optional[str] = None
+
 class Turno_response(BaseModel):
     id_turno: int
     id_usuario: str

@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends, status
 from sqlalchemy.orm import Session
 from models.pago import Pago
 from models.pedido import Pedido
+from models.turno import Turno
 from schemas.pago import Pago_create, Pago_response, Pago_update
 from database import get_db
 from middleware.auth import verificar_token
@@ -9,7 +10,7 @@ from middleware.auth import verificar_token
 router = APIRouter(
     prefix="/pagos",
     tags=["Pagos"],
-    dependencies= [Depends(verificar_token)]
+    dependencies=[Depends(verificar_token)]
 )
 
 @router.get("/", response_model=list[Pago_response], status_code=status.HTTP_200_OK)
@@ -68,12 +69,18 @@ def crear_pago(pago: Pago_create, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(nuevo_pago)
 
-    db.add(nuevo_pago)
-
-# Actualizar estado del pedido
+    # Actualizar estado del pedido
     pedido.estado_pedido = "cancelado"
-    db.commit()
 
+    # Actualizar ingresos del turno activo
+    turno = db.query(Turno).filter(
+        Turno.id_turno == pedido.id_turno
+    ).first()
+
+    if turno:
+        turno.ingresos_turno = float(turno.ingresos_turno or 0) + float(pedido.valor_total)
+
+    db.commit()
 
     return nuevo_pago
 

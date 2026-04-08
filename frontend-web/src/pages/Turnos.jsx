@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react"
-import { obtenerTurnos, crearTurno, cerrarTurno, eliminarTurno } from "../api/turnoApi"
+import { obtenerTurnos, crearTurno, cerrarTurno, eliminarTurno, registrarEgreso } from "../api/turnoApi"
 import { useAuth } from "../context/AuthContext"
 
 function Turnos() {
     const [turnos, setTurnos] = useState([])
     const [baseTurno, setBaseTurno] = useState('')
+    const [montoEgreso, setMontoEgreso] = useState('')
+    const [descripcionEgreso, setDescripcionEgreso] = useState('')
     const { usuario } = useAuth()
 
     useEffect(() => {
@@ -30,13 +32,32 @@ function Turnos() {
     }
 
     const handleCerrar = async (id) => {
-        await cerrarTurno(id)
+        if (window.confirm('¿Estás seguro de cerrar el turno?')) {
+            await cerrarTurno(id)
+            cargarTurnos()
+        }
+    }
+
+    const handleEgreso = async (e) => {
+        e.preventDefault()
+        if (!montoEgreso || parseFloat(montoEgreso) <= 0) {
+            alert('Ingresa un monto válido')
+            return
+        }
+        await registrarEgreso(turnoActivo.id_turno, {
+            monto: parseFloat(montoEgreso),
+            descripcion: descripcionEgreso || null
+        })
+        setMontoEgreso('')
+        setDescripcionEgreso('')
         cargarTurnos()
     }
 
     const handleEliminar = async (id) => {
-        await eliminarTurno(id)
-        cargarTurnos()
+        if (window.confirm('¿Estás seguro de eliminar este turno?')) {
+            await eliminarTurno(id)
+            cargarTurnos()
+        }
     }
 
     return (
@@ -45,11 +66,34 @@ function Turnos() {
 
             {turnoActivo ? (
                 <div>
-                    <h2>Turno Activo</h2>
+                    <h2>Turno Activo #{turnoActivo.id_turno}</h2>
                     <p>Base: ${turnoActivo.base_turno}</p>
                     <p>Ingresos: ${turnoActivo.ingresos_turno}</p>
                     <p>Egresos: ${turnoActivo.egresos_turno}</p>
+                    <p>Total en caja: ${parseFloat(turnoActivo.base_turno) + parseFloat(turnoActivo.ingresos_turno) - parseFloat(turnoActivo.egresos_turno)}</p>
                     <p>Inicio: {turnoActivo.fecha_turno_inicio.replace('T', ' ').substring(0, 19)}</p>
+
+                    <h3>Registrar Egreso</h3>
+                    <form onSubmit={handleEgreso}>
+                        <label htmlFor="monto_egreso">Monto:</label>
+                        <input
+                            type="number"
+                            id="monto_egreso"
+                            value={montoEgreso}
+                            onChange={(e) => setMontoEgreso(e.target.value)}
+                            required
+                        />
+                        <label htmlFor="descripcion_egreso">Descripción:</label>
+                        <input
+                            type="text"
+                            id="descripcion_egreso"
+                            placeholder="Ej: Compra de ingredientes"
+                            value={descripcionEgreso}
+                            onChange={(e) => setDescripcionEgreso(e.target.value)}
+                        />
+                        <button type="submit">Registrar Egreso</button>
+                    </form>
+
                     <button onClick={() => handleCerrar(turnoActivo.id_turno)}>
                         Cerrar Turno
                     </button>
@@ -74,6 +118,8 @@ function Turnos() {
                     <li key={turno.id_turno}>
                         Turno #{turno.id_turno} —
                         Base: ${turno.base_turno} —
+                        Ingresos: ${turno.ingresos_turno} —
+                        Egresos: ${turno.egresos_turno} —
                         Estado: {turno.estado_turno} —
                         Inicio: {turno.fecha_turno_inicio.replace('T', ' ').substring(0, 19)}
                         {turno.fecha_turno_fin && ` — Fin: ${turno.fecha_turno_fin.replace('T', ' ').substring(0, 19)}`}

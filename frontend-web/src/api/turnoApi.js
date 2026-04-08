@@ -31,6 +31,11 @@ export const cerrarTurno = async (id) => {
     return response.data
 }
 
+export const registrarEgreso = async (id, data) => {
+    const response = await api.patch(`/turnos/${id}/egreso`, data)
+    return response.data
+}
+
 export const eliminarTurno = async (id) => {
     const response = await api.delete(`/turnos/${id}`)
     return response.data

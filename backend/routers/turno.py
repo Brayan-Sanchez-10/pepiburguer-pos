@@ -3,8 +3,7 @@ from sqlalchemy.orm import Session
 from datetime import datetime
 from database import get_db
 from models.turno import Turno
-from schemas.turno import Turno_create, Turno_update, Turno_response, Turno_close
-from models.pedido import Pedido
+from schemas.turno import Turno_create, Turno_update, Turno_response, Turno_close, Turno_egreso
 from middleware.auth import verificar_token, verificar_admin
 
 router = APIRouter(
@@ -93,6 +92,30 @@ def cerrar_turno(id: int, turno: Turno_close, db: Session = Depends(get_db)):
     existe.fecha_turno_fin = datetime.now()
     existe.estado_turno = turno.estado_turno
 
+    db.commit()
+    db.refresh(existe)
+
+    return existe
+
+@router.patch("/{id}/egreso", response_model=Turno_response, status_code=status.HTTP_200_OK)
+def registrar_egreso(id: int, egreso: Turno_egreso, db: Session = Depends(get_db)):
+    existe = db.query(Turno).filter(
+        Turno.id_turno == id
+    ).first()
+
+    if not existe:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"El turno con el id: {id} no existe"
+        )
+
+    if existe.estado_turno != "iniciado":
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Solo se pueden registrar egresos en un turno activo"
+        )
+
+    existe.egresos_turno = float(existe.egresos_turno or 0) + egreso.monto
     db.commit()
     db.refresh(existe)
 
