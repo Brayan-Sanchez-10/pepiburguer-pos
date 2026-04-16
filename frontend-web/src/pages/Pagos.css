@@ -1,0 +1,192 @@
+.pagos-page {
+  padding-bottom: 40px;
+}
+
+.pagos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.pagos-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pagos-title h1 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1a1f2e;
+  letter-spacing: 0;
+  -webkit-text-fill-color: #1a1f2e;
+  background: none;
+}
+
+.filtro-fecha {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 10px 16px;
+  color: #1a1f2e;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.pagos-resumen {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.resumen-card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.resumen-card span {
+  font-size: 0.85rem;
+  color: #888;
+  font-weight: 600;
+}
+
+.resumen-card strong {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+}
+
+.resumen-card small {
+  font-size: 0.78rem;
+  color: #aaa;
+}
+
+.resumen-card.total strong { color: #1a1f2e; }
+.resumen-card.efectivo strong { color: #2E7D32; }
+.resumen-card.transferencia strong { color: #1565C0; }
+.resumen-card.turno strong { color: #FF6B00; }
+
+.pagos-lista-container {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.pagos-lista-container h2 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #1a1f2e;
+  -webkit-text-fill-color: #1a1f2e;
+  background: none;
+  letter-spacing: 0;
+  margin-bottom: 16px;
+}
+
+.pagos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pago-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border: 1px solid #eee;
+}
+
+.pago-numero {
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, #FF6B00, #CC2200);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 800;
+  font-size: 0.82rem;
+  flex-shrink: 0;
+}
+
+.pago-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pago-info strong {
+  font-size: 0.95rem;
+  color: #1a1f2e;
+}
+
+.pago-info span {
+  font-size: 0.82rem;
+  color: #666;
+}
+
+.pago-info small {
+  font-size: 0.78rem;
+  color: #aaa;
+}
+
+.pago-metodo {
+  display: flex;
+  align-items: center;
+}
+
+.badge-pago {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.badge-pago.efectivo {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+
+.badge-pago.transferencia {
+  background: #E3F2FD;
+  color: #1565C0;
+}
+
+.pago-montos {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pago-montos strong {
+  font-size: 1rem;
+  color: #CC2200;
+  font-weight: 800;
+}
+
+.pago-montos small {
+  font-size: 0.78rem;
+  color: #888;
+}
+
+.empty-msg {
+  text-align: center;
+  color: #aaa;
+  padding: 40px;
+  font-size: 0.9rem;
+}
