@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap');
+
+:root {
+  --negro: #1A0A00;
+  --rojo: #CC2200;
+  --naranja: #FF6B00;
+  --amarillo: #FFD700;
+  --blanco: #FFF8F0;
+  --gris: #2A1500;
+  --gris-claro: #3D2000;
+  --texto: #FFF8F0;
+  --sombra: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background-color: var(--negro);
+  color: var(--texto);
+  min-height: 100vh;
+}
+
+button {
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+input, select {
+  font-family: 'Nunito', sans-serif;
+  background-color: var(--gris-claro);
+  color: var(--texto);
+  border: 1px solid var(--naranja);
+  border-radius: 8px;
+  padding: 8px 12px;
+  outline: none;
+  transition: border 0.2s;
+}
+
+input:focus, select:focus {
+  border-color: var(--amarillo);
+  box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.2);
+}
+
+input::placeholder {
+  color: #888;
+}
+
+label {
+  font-weight: 700;
+  color: var(--amarillo);
+  font-size: 0.85rem;
+  display: block;
+  margin-bottom: 4px;
+}
+
+h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.5rem;
+  color: var(--naranja);
+  letter-spacing: 2px;
+}
+
+h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  color: var(--amarillo);
+  letter-spacing: 1px;
+}
+
+h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.3rem;
+  color: var(--blanco);
+  letter-spacing: 1px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}

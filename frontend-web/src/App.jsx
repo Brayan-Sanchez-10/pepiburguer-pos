@@ -9,6 +9,7 @@ import Usuarios from './pages/Usuarios'
 import Turnos from './pages/Turnos'
 import Pedidos from './pages/Pedidos'
 import Pagos from './pages/Pagos'
+import DashboardHome from './pages/DashboardHome'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />}>
+              <Route index element={<DashboardHome />} />
               <Route path="categorias" element={<Categorias />} />
               <Route path="productos" element={<Productos />} />
               <Route path="mesas" element={<Mesas/>} />
