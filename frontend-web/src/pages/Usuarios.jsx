@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { obtenerUsuarios, crearUsuario, editarUsuario, eliminarUsuario } from "../api/usuarioApi"
+import './Admin.css'
 
 function Usuarios() {
     const [usuarios, setUsuarios] = useState([])
@@ -13,9 +14,7 @@ function Usuarios() {
     const [celularEditado, setCelularEditado] = useState('')
     const [rolEditado, setRolEditado] = useState('')
 
-    useEffect(() => {
-        cargarUsuarios()
-    }, [])
+    useEffect(() => { cargarUsuarios() }, [])
 
     const cargarUsuarios = async () => {
         const data = await obtenerUsuarios()
@@ -50,97 +49,102 @@ function Usuarios() {
     }
 
     const handleEliminar = async (id) => {
-        await eliminarUsuario(id)
-        cargarUsuarios()
+        if (window.confirm('¿Eliminar este usuario?')) {
+            await eliminarUsuario(id)
+            cargarUsuarios()
+        }
     }
 
     return (
-        <div>
-            <h1>Usuarios</h1>
+        <div className="admin-page">
+            <div className="admin-header">
+                <div className="admin-title">
+                    <span>👤</span>
+                    <h1>Usuarios</h1>
+                </div>
+            </div>
 
-            <form onSubmit={handleCrear}>
-                <label htmlFor="id_usuario">Cedula:</label>
-                <input
-                    type="text"
-                    id="id_usuario"
-                    value={idUsuario}
-                    onChange={(e) => setIdUsuario(e.target.value)}
-                    required
-                />
-                <label htmlFor="nombre_usuario">Nombre:</label>
-                <input
-                    type="text"
-                    id="nombre_usuario"
-                    value={nombre}
-                    onChange={(e) => setNombre(e.target.value)}
-                    required
-                />
-                <label htmlFor="celular_usuario">Celular:</label>
-                <input
-                    type="text"
-                    id="celular_usuario"
-                    value={celular}
-                    onChange={(e) => setCelular(e.target.value)}
-                    required
-                />
-                <label htmlFor="contrasena_usuario">Contraseña:</label>
-                <input
-                    type="password"
-                    id="contrasena_usuario"
-                    value={contrasena}
-                    onChange={(e) => setContrasena(e.target.value)}
-                    required
-                />
-                <label htmlFor="rol_usuario">Rol:</label>
-                <select
-                    id="rol_usuario"
-                    value={rol}
-                    onChange={(e) => setRol(e.target.value)}
-                >
-                    <option value="mesero">Mesero</option>
-                    <option value="administrador">Administrador</option>
-                </select>
-                <button type="submit">Crear Usuario</button>
-            </form>
+            <div className="admin-layout">
+                <div className="admin-form-card">
+                    <h2>Nuevo Usuario</h2>
+                    <form onSubmit={handleCrear}>
+                        <div className="form-group">
+                            <label>Cédula</label>
+                            <input type="text" placeholder="Número de cédula" value={idUsuario} onChange={(e) => setIdUsuario(e.target.value)} required />
+                        </div>
+                        <div className="form-group">
+                            <label>Nombre</label>
+                            <input type="text" placeholder="Nombre completo" value={nombre} onChange={(e) => setNombre(e.target.value)} required />
+                        </div>
+                        <div className="form-group">
+                            <label>Celular</label>
+                            <input type="text" placeholder="Número de celular" value={celular} onChange={(e) => setCelular(e.target.value)} required />
+                        </div>
+                        <div className="form-group">
+                            <label>Contraseña</label>
+                            <input type="password" placeholder="Contraseña" value={contrasena} onChange={(e) => setContrasena(e.target.value)} required />
+                        </div>
+                        <div className="form-group">
+                            <label>Rol</label>
+                            <select value={rol} onChange={(e) => setRol(e.target.value)}>
+                                <option value="mesero">Mesero</option>
+                                <option value="administrador">Administrador</option>
+                            </select>
+                        </div>
+                        <button type="submit" className="btn-primary">+ Agregar Usuario</button>
+                    </form>
+                </div>
 
-            <ul>
-                {usuarios.map((usu) => (
-                    <li key={usu.id_usuario}>
-                        {usuarioEditando === usu.id_usuario ? (
-                            <>
-                                <input
-                                    value={nombreEditado}
-                                    onChange={(e) => setNombreEditado(e.target.value)}
-                                />
-                                <input
-                                    value={celularEditado}
-                                    onChange={(e) => setCelularEditado(e.target.value)}
-                                />
-                                <select
-                                    value={rolEditado}
-                                    onChange={(e) => setRolEditado(e.target.value)}
-                                >
-                                    <option value="mesero">Mesero</option>
-                                    <option value="administrador">Administrador</option>
-                                </select>
-                                <button onClick={() => handleEditar(usu.id_usuario)}>Guardar</button>
-                                <button onClick={() => setUsuarioEditando(null)}>Cancelar</button>
-                            </>
-                        ) : (
-                            <>
-                                {usu.id_usuario} - {usu.nombre_usuario} - {usu.rol_usuario}
-                                <button onClick={() => {
-                                    setUsuarioEditando(usu.id_usuario)
-                                    setNombreEditado(usu.nombre_usuario)
-                                    setCelularEditado(usu.celular_usuario)
-                                    setRolEditado(usu.rol_usuario)
-                                }}>Editar</button>
-                                <button onClick={() => handleEliminar(usu.id_usuario)}>Eliminar</button>
-                            </>
-                        )}
-                    </li>
-                ))}
-            </ul>
+                <div className="admin-list-card">
+                    <h2>Usuarios Registrados</h2>
+                    <div className="admin-list">
+                        {usuarios.map((usu) => (
+                            <div key={usu.id_usuario} className="admin-item">
+                                {usuarioEditando === usu.id_usuario ? (
+                                    <div className="item-edit">
+                                        <input value={nombreEditado} onChange={(e) => setNombreEditado(e.target.value)} placeholder="Nombre" />
+                                        <input value={celularEditado} onChange={(e) => setCelularEditado(e.target.value)} placeholder="Celular" style={{marginTop: '8px'}} />
+                                        <select value={rolEditado} onChange={(e) => setRolEditado(e.target.value)} style={{marginTop: '8px'}}>
+                                            <option value="mesero">Mesero</option>
+                                            <option value="administrador">Administrador</option>
+                                        </select>
+                                        <div style={{display: 'flex', gap: '8px', marginTop: '8px'}}>
+                                            <button className="btn-save" onClick={() => handleEditar(usu.id_usuario)}>✓ Guardar</button>
+                                            <button className="btn-cancel" onClick={() => setUsuarioEditando(null)}>✕</button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <>
+                                        <div className="usuario-avatar">
+                                            {usu.nombre_usuario?.charAt(0).toUpperCase()}
+                                        </div>
+                                        <div className="item-info">
+                                            <strong>{usu.nombre_usuario}</strong>
+                                            <span>CC: {usu.id_usuario}</span>
+                                            <span>{usu.celular_usuario}</span>
+                                        </div>
+                                        <div className="item-status">
+                                            <span className={`badge-status ${usu.rol_usuario}`}>
+                                                {usu.rol_usuario === 'administrador' ? '👑 Admin' : '🍽 Mesero'}
+                                            </span>
+                                        </div>
+                                        <div className="item-acciones">
+                                            <button className="btn-edit" onClick={() => {
+                                                setUsuarioEditando(usu.id_usuario)
+                                                setNombreEditado(usu.nombre_usuario)
+                                                setCelularEditado(usu.celular_usuario)
+                                                setRolEditado(usu.rol_usuario)
+                                            }}>✏️ Editar</button>
+                                            <button className="btn-delete" onClick={() => handleEliminar(usu.id_usuario)}>🗑 Eliminar</button>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                        ))}
+                        {usuarios.length === 0 && <p className="empty-msg">No hay usuarios registrados</p>}
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
