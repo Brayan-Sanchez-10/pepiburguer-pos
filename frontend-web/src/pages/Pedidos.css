@@ -1,0 +1,609 @@
+.pedidos-page {
+  padding-bottom: 40px;
+}
+
+.pedidos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.pedidos-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pedidos-title h1 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1a1f2e;
+  letter-spacing: 0;
+  -webkit-text-fill-color: #1a1f2e;
+  background: none;
+}
+
+.pedidos-title span {
+  font-size: 1.8rem;
+}
+
+.btn-nuevo-pedido {
+  background: linear-gradient(135deg, #CC2200, #FF2200);
+  color: white;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 800;
+  box-shadow: 0 4px 15px rgba(204,34,0,0.4);
+}
+
+.pedidos-columnas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.columna {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.columna-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  font-weight: 800;
+  font-size: 1rem;
+  color: white;
+}
+
+.columna-header.pendiente {
+  background: linear-gradient(135deg, #FF6B00, #FF8C00);
+}
+
+.columna-header.por-cobrar {
+  background: linear-gradient(135deg, #CC2200, #FF2200);
+}
+
+.columna-header.cobrado {
+  background: linear-gradient(135deg, #00897B, #00C853);
+}
+
+.badge-count {
+  background: rgba(255,255,255,0.3);
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+}
+
+.columna-body {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 65vh;
+  overflow-y: auto;
+}
+
+.pedido-card {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 14px;
+  border: 1px solid #eee;
+}
+
+.cobrado-card {
+  opacity: 0.7;
+}
+
+.pedido-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.pedido-card-header strong {
+  font-size: 1.2rem;
+  color: #1a1f2e;
+  display: block;
+}
+
+.pedido-tipo {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1a1f2e;
+  margin-left: 8px;
+}
+
+.pedido-subtipo {
+  font-size: 0.75rem;
+  color: #888;
+  background: #eee;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.pedido-productos-lista {
+  margin: 10px 0;
+  padding: 10px 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.pedido-productos-lista p {
+  font-size: 0.88rem;
+  color: #444;
+  padding: 2px 0;
+}
+
+.nota {
+  color: #888;
+  font-style: italic;
+}
+
+.pedido-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.pedido-total-label {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.pedido-total-label strong {
+  color: #CC2200;
+  font-size: 1.1rem;
+}
+
+.btn-por-cobrar {
+  background: linear-gradient(135deg, #1565C0, #1976D2);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.btn-cobrar-ahora {
+  background: linear-gradient(135deg, #CC2200, #FF2200);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.empty-col {
+  text-align: center;
+  color: #aaa;
+  padding: 20px;
+  font-size: 0.9rem;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 20px;
+}
+
+.modal-formulario, .modal-pago, .modal-recibo {
+  background: white;
+  border-radius: 20px;
+  padding: 28px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.modal-header h2 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #1a1f2e;
+  -webkit-text-fill-color: #1a1f2e;
+  background: none;
+  letter-spacing: 0;
+}
+
+.btn-cerrar-modal {
+  background: #f1f3f5;
+  color: #666;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 0.9rem;
+  padding: 0;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  color: #666;
+  font-size: 0.82rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  background: #f8f9fa;
+  color: #1a1f2e;
+  border: 1px solid #ddd;
+  padding: 10px 14px;
+  border-radius: 8px;
+}
+
+.tipo-pedido-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-tipo {
+  flex: 1;
+  padding: 10px;
+  background: #f1f3f5;
+  color: #666;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border: 2px solid transparent;
+}
+
+.btn-tipo.activo {
+  background: linear-gradient(135deg, #FF6B00, #CC2200);
+  color: white;
+}
+
+.productos-seleccionados {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 12px;
+  margin-top: 12px;
+}
+
+.prod-sel-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  font-size: 0.88rem;
+  color: #444;
+  border-bottom: 1px solid #eee;
+}
+
+.prod-sel-item button {
+  background: none;
+  color: #CC2200;
+  padding: 2px 6px;
+  font-size: 0.8rem;
+}
+
+.total-pedido {
+  text-align: right;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.total-pedido strong {
+  color: #CC2200;
+  font-size: 1.1rem;
+}
+
+.btn-crear-pedido {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #CC2200, #FF2200);
+  color: white;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 800;
+  margin-top: 8px;
+}
+
+.pago-detalle {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.pago-detalle h3 {
+  font-size: 0.85rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  -webkit-text-fill-color: #888;
+  background: none;
+}
+
+.pago-prod-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #444;
+  padding: 4px 0;
+}
+
+.pago-total {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #ddd;
+  font-weight: 800;
+}
+
+.pago-total span {
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.pago-total strong {
+  color: #CC2200;
+  font-size: 1.2rem;
+}
+
+.cambio-display {
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: #E8F5E9;
+  border-radius: 8px;
+  color: #2E7D32;
+  font-size: 0.9rem;
+}
+
+.cambio-display strong {
+  font-size: 1.1rem;
+}
+
+.btn-cobrar-final {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #CC2200, #FF2200);
+  color: white;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 800;
+  margin-top: 8px;
+}
+
+.modal-recibo {
+  max-width: 360px;
+}
+
+.recibo-header {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.recibo-header h2 {
+  font-size: 1.1rem;
+  color: #1a1f2e;
+  -webkit-text-fill-color: #1a1f2e;
+  background: none;
+  letter-spacing: 0;
+}
+
+.recibo-header p {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.recibo-fecha {
+  font-size: 0.8rem;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.recibo-productos {
+  margin: 12px 0;
+}
+
+.recibo-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.88rem;
+  color: #444;
+  padding: 3px 0;
+}
+
+.recibo-totales {
+  margin: 12px 0;
+}
+
+.recibo-totales div {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.recibo-totales strong {
+  color: #CC2200;
+}
+
+.recibo-gracias {
+  text-align: center;
+  color: #888;
+  font-size: 0.85rem;
+  margin: 12px 0;
+}
+
+.recibo-btns {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.btn-imprimir {
+  flex: 1;
+  background: linear-gradient(135deg, #CC2200, #FF2200);
+  color: white;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 800;
+}
+
+.btn-cerrar-recibo {
+  flex: 1;
+  background: #f1f3f5;
+  color: #666;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+.categorias-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.btn-categoria {
+  background: linear-gradient(135deg, #FF6B00, #CC2200);
+  color: white;
+  padding: 14px 10px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(204,34,0,0.3);
+}
+
+.btn-categoria:hover {
+  transform: translateY(-2px);
+}
+
+.productos-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.btn-producto {
+  background: white;
+  border: 2px solid #FF6B00;
+  color: #1a1f2e;
+  padding: 12px 10px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.btn-producto:hover {
+  background: linear-gradient(135deg, #FF6B00, #CC2200);
+  color: white;
+  border-color: transparent;
+}
+
+.prod-nombre {
+  font-weight: 800;
+  font-size: 0.88rem;
+}
+
+.prod-precio {
+  font-size: 0.82rem;
+  color: #CC2200;
+  font-weight: 700;
+}
+
+.btn-producto:hover .prod-precio {
+  color: white;
+}
+
+.producto-seleccionado-confirm {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 8px;
+  border: 2px solid #FF6B00;
+}
+
+.prod-confirm-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.prod-confirm-info strong {
+  font-size: 1rem;
+  color: #1a1f2e;
+  font-weight: 800;
+}
+
+.prod-confirm-info span {
+  font-size: 0.95rem;
+  color: #CC2200;
+  font-weight: 700;
+}
+
+.prod-confirm-btns {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.btn-cancelar-prod {
+  flex: 1;
+  background: #f1f3f5;
+  color: #666;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.btn-agregar-confirm {
+  flex: 2;
+  background: linear-gradient(135deg, #FF6B00, #CC2200);
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 0.85rem;
+}
+
+@media print {
+  body * { visibility: hidden; }
+  #recibo-print, #recibo-print * { visibility: visible; }
+  #recibo-print { position: absolute; left: 0; top: 0; }
+}
