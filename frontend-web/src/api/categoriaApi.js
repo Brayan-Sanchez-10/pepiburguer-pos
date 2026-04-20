@@ -1,8 +1,12 @@
 import api from './axiosConfig'
 
 export const obtenerCategorias = async () => {
-    const response = await api.get('/categorias/')
-    return response.data
+    try {
+        const response = await api.get('/categorias/')
+        return response.data
+    } catch (error) {
+        return []
+    }
 }
 
 export const obtenerCategoria = async(id) => {

@@ -69,7 +69,7 @@ def editar_categoria(id : int, nombre : Categoria_update, db: Session = Depends(
 
     return existe
 
-@router.delete("/{id}", response_model=Categoria_response, status_code=status.HTTP_200_OK)
+@router.delete("/{id}", status_code=status.HTTP_200_OK)
 def eliminar_categoria(id: int, db: Session=Depends(get_db)):
     existe = db.query(Categoria).filter(
         Categoria.id_categoria == id
@@ -80,9 +80,28 @@ def eliminar_categoria(id: int, db: Session=Depends(get_db)):
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"No existe categoria con el id: {id}"
         )
-    
+
+    from models.producto import Producto
+    from models.pedido_producto import Pedido_producto
+
+    # 1. Obtener productos de esta categoría
+    productos = db.query(Producto).filter(
+        Producto.id_categoria == id
+    ).all()
+
+    # 2. Eliminar pedido_producto de cada producto
+    for producto in productos:
+        db.query(Pedido_producto).filter(
+            Pedido_producto.id_producto == producto.id_producto
+        ).delete()
+
+    # 3. Eliminar productos
+    db.query(Producto).filter(
+        Producto.id_categoria == id
+    ).delete()
+
+    # 4. Eliminar categoría
     db.delete(existe)
     db.commit()
 
     return {"mensaje": f"Categoria con id {id} eliminada correctamente"}
-
