@@ -70,7 +70,7 @@ def editar_producto(id: int, producto: Producto_update, db: Session= Depends(get
         existe.nombre_producto = producto.nombre_producto
     if producto.valor_producto:
         existe.valor_producto = producto.valor_producto
-    if producto.disponible:
+    if producto.disponible is not None:
         existe.disponible = producto.disponible
     
     db.commit()
