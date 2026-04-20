@@ -4,6 +4,7 @@ from models.pedido import  Pedido
 from schemas.pedido import Pedido_create,  Pedido_response,  Pedido_update
 from database import get_db
 from middleware.auth import verificar_token
+from models.mesa import Mesa
 
 router = APIRouter(
     prefix="/pedidos",
@@ -37,20 +38,27 @@ def obtener_pedido(id: int, db: Session=Depends(get_db)):
     
     return existe
 
-@router.post("/", response_model= Pedido_response, status_code= status.HTTP_201_CREATED)
+@router.post("/", response_model=Pedido_response, status_code=status.HTTP_201_CREATED)
 def crear_pedido(pedido: Pedido_create, db: Session = Depends(get_db)):
     nuevo_pedido = Pedido(
-        valor_total = pedido.valor_total,
-        fecha_pedido = pedido.fecha_pedido,
-        id_turno = pedido.id_turno,
-        id_mesa = pedido.id_mesa,
-        tipo_pedido = pedido.tipo_pedido,
-        estado_pedido = pedido.estado_pedido
+        valor_total=pedido.valor_total,
+        fecha_pedido=pedido.fecha_pedido,
+        id_turno=pedido.id_turno,
+        id_mesa=pedido.id_mesa,
+        tipo_pedido=pedido.tipo_pedido,
+        estado_pedido=pedido.estado_pedido
     )
 
     db.add(nuevo_pedido)
     db.commit()
     db.refresh(nuevo_pedido)
+
+    # Si es pedido de mesa, marcarla como ocupada
+    if pedido.tipo_pedido == 'mesa' and pedido.id_mesa:
+        mesa = db.query(Mesa).filter(Mesa.id_mesa == pedido.id_mesa).first()
+        if mesa:
+            mesa.estado = 'ocupada'
+            db.commit()
 
     return nuevo_pedido
 

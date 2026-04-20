@@ -50,8 +50,8 @@ def crear_mesa(mesa : Mesa_create, db: Session=Depends(get_db)):
 
     return nueva_mesa
 
-@router.put("/{id}", response_model= Mesa_response, status_code= status.HTTP_200_OK)
-def editar_mesa(id:int, mesa: Mesa_update, db: Session = Depends(get_db)):
+@router.put("/{id}", response_model=Mesa_response, status_code=status.HTTP_200_OK)
+def editar_mesa(id: int, mesa: Mesa_update, db: Session = Depends(get_db)):
     existe = db.query(Mesa).filter(
         Mesa.id_mesa == id
     ).first()
@@ -59,13 +59,11 @@ def editar_mesa(id:int, mesa: Mesa_update, db: Session = Depends(get_db)):
     if not existe:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail= f"No existe mesa con el id: {id}"
+            detail=f"No existe mesa con el id: {id}"
         )
     
     if mesa.numero_mesa:
         existe.numero_mesa = mesa.numero_mesa
-    if mesa.estado:
-        existe.estado = mesa.estado
     
     db.commit()
     db.refresh(existe)
