@@ -25,6 +25,7 @@ function Pedidos() {
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null)
     const [productoActual, setProductoActual] = useState(null)
     const [notaActual, setNotaActual] = useState('')
+    const [reciboNuevoPedido, setReciboNuevoPedido] = useState(null)
 
     const [tipoPedido, setTipoPedido] = useState('mesa')
     const [idMesa, setIdMesa] = useState('')
@@ -195,6 +196,14 @@ function Pedidos() {
             })
         }
 
+        const productosParaRecibo = [...productosSeleccionados]
+        const tipoPedidoParaRecibo = tipoPedido
+        const idMesaParaRecibo = idMesa
+        const nombreClienteParaRecibo = nombreCliente
+        const direccionClienteParaRecibo = direccionCliente
+        const barrioClienteParaRecibo = barrioCliente
+        const celularClienteParaRecibo = celularCliente
+
         setMostrarFormulario(false)
         setTipoPedido('mesa')
         setIdMesa('')
@@ -206,6 +215,18 @@ function Pedidos() {
         setDireccionCliente('')
         setBarrioCliente('')
         setCelularCliente('')
+
+        setReciboNuevoPedido({
+            pedido: nuevoPedido,
+            productos: productosParaRecibo,
+            nombreCliente: nombreClienteParaRecibo,
+            direccionCliente: direccionClienteParaRecibo,
+            barrioCliente: barrioClienteParaRecibo,
+            celularCliente: celularClienteParaRecibo,
+            tipoPedido: tipoPedidoParaRecibo,
+            idMesa: idMesaParaRecibo
+        })
+
         cargarDatos()
     }
 
@@ -228,7 +249,6 @@ function Pedidos() {
             </div>
 
             <div className="pedidos-columnas">
-
                 <div className="columna">
                     <div className="columna-header pendiente">
                         <span>🍳 En Preparación</span>
@@ -341,7 +361,6 @@ function Pedidos() {
                             <button className="btn-cerrar-modal" onClick={() => setMostrarFormulario(false)}>✕</button>
                         </div>
                         <form onSubmit={handleCrearPedido}>
-
                             <div className="form-group">
                                 <label>Tipo de Pedido</label>
                                 <div className="tipo-pedido-btns">
@@ -521,7 +540,7 @@ function Pedidos() {
                 </div>
             )}
 
-            {/* RECIBO */}
+            {/* RECIBO PAGO */}
             {pagoRealizado && (
                 <div className="modal-overlay">
                     <div className="modal-recibo" id="recibo-print">
@@ -553,6 +572,64 @@ function Pedidos() {
                         <div className="recibo-btns">
                             <button className="btn-imprimir" onClick={handleImprimirRecibo}>🖨 Imprimir</button>
                             <button className="btn-cerrar-recibo" onClick={handleCerrarModal}>Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* RECIBO NUEVO PEDIDO */}
+            {reciboNuevoPedido && (
+                <div className="modal-overlay">
+                    <div className="modal-recibo" id="recibo-nuevo-pedido-print">
+                        <div className="recibo-header">
+                            <h2>🍔 PepiBurguer Restaurant</h2>
+                            <p>Toda la Gloria sea para Dios</p>
+                            <hr />
+                        </div>
+                        <p className="recibo-fecha">{new Date().toLocaleString('es-CO')}</p>
+                        <p><strong>Pedido #{String(reciboNuevoPedido.pedido.id_pedido).padStart(3, '0')}</strong></p>
+                        <p>
+                            Tipo: <strong>
+                                {reciboNuevoPedido.tipoPedido === 'mesa'
+                                    ? getNombreMesa(parseInt(reciboNuevoPedido.idMesa))
+                                    : reciboNuevoPedido.tipoPedido === 'domicilio'
+                                        ? 'Domicilio'
+                                        : 'Para Llevar'}
+                            </strong>
+                        </p>
+                        {reciboNuevoPedido.tipoPedido === 'domicilio' && (
+                            <div style={{margin: '8px 0', padding: '8px', background: '#f8f9fa', borderRadius: '8px'}}>
+                                <p><strong>Cliente:</strong> {reciboNuevoPedido.nombreCliente}</p>
+                                <p><strong>Dirección:</strong> {reciboNuevoPedido.direccionCliente}</p>
+                                <p><strong>Barrio:</strong> {reciboNuevoPedido.barrioCliente}</p>
+                                <p><strong>Celular:</strong> {reciboNuevoPedido.celularCliente}</p>
+                            </div>
+                        )}
+                        <hr />
+                        <div className="recibo-productos">
+                            {reciboNuevoPedido.productos.map((p, i) => (
+                                <div key={i} className="recibo-item">
+                                    <span>{p.cantidad}x {p.nombre}{p.nota_especial ? ` — ${p.nota_especial}` : ''}</span>
+                                    <span>{formatPesos(p.valor * p.cantidad)}</span>
+                                </div>
+                            ))}
+                        </div>
+                        <hr />
+                        <div className="recibo-totales">
+                            <div>
+                                <span>TOTAL</span>
+                                <strong>{formatPesos(reciboNuevoPedido.pedido.valor_total)}</strong>
+                            </div>
+                        </div>
+                        <hr />
+                        <p className="recibo-gracias">¡Pedido creado exitosamente!</p>
+                        <div className="recibo-btns">
+                            <button className="btn-imprimir" onClick={() => window.print()}>
+                                🖨 Imprimir
+                            </button>
+                            <button className="btn-cerrar-recibo" onClick={() => setReciboNuevoPedido(null)}>
+                                Cerrar
+                            </button>
                         </div>
                     </div>
                 </div>

@@ -604,6 +604,33 @@
 
 @media print {
   body * { visibility: hidden; }
+  #recibo-nuevo-pedido-print, #recibo-nuevo-pedido-print * { visibility: visible; }
   #recibo-print, #recibo-print * { visibility: visible; }
-  #recibo-print { position: absolute; left: 0; top: 0; }
+  #recibo-turno-print, #recibo-turno-print * { visibility: visible; }
+  [id$="-print"] { position: absolute; left: 0; top: 0; }
+}
+
+#recibo-nuevo-pedido-print p,
+#recibo-nuevo-pedido-print span,
+#recibo-nuevo-pedido-print strong {
+  color: #1a1f2e !important;
+  -webkit-text-fill-color: #1a1f2e !important;
+  background: none !important;
+}
+
+#recibo-nuevo-pedido-print .recibo-totales strong {
+  color: #CC2200 !important;
+  -webkit-text-fill-color: #CC2200 !important;
+}
+
+#recibo-print p,
+#recibo-print span {
+  color: #1a1f2e !important;
+  -webkit-text-fill-color: #1a1f2e !important;
+  background: none !important;
+}
+
+#recibo-print .recibo-totales strong {
+  color: #CC2200 !important;
+  -webkit-text-fill-color: #CC2200 !important;
 }
