@@ -8,7 +8,7 @@ from middleware.auth import verificar_token, verificar_admin
 router = APIRouter(
     prefix="/productos",
     tags=["Productos"],
-    dependencies= [Depends(verificar_admin)]
+    dependencies= [Depends(verificar_token)]
 )
 
 @router.get("/", response_model= list[Producto_response], status_code= status.HTTP_200_OK)

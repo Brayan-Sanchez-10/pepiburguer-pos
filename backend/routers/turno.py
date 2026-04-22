@@ -9,10 +9,9 @@ from middleware.auth import verificar_token, verificar_admin
 router = APIRouter(
     prefix="/turnos",
     tags=["Turnos"],
-    dependencies=[Depends(verificar_admin)]
 )
 
-@router.get("/", response_model=list[Turno_response], status_code=status.HTTP_200_OK)
+@router.get("/", response_model=list[Turno_response], status_code=status.HTTP_200_OK, dependencies=[Depends(verificar_token)])
 def obtener_turnos(db: Session = Depends(get_db)):
     turnos = db.query(Turno).all()
 
@@ -24,7 +23,7 @@ def obtener_turnos(db: Session = Depends(get_db)):
     
     return turnos
 
-@router.get("/{id}", response_model=Turno_response, status_code=status.HTTP_200_OK)
+@router.get("/{id}", response_model=Turno_response, status_code=status.HTTP_200_OK, dependencies=[Depends(verificar_token)])
 def obtener_turno(id: int, db: Session = Depends(get_db)):
     existe = db.query(Turno).filter(
         Turno.id_turno == id
@@ -38,9 +37,8 @@ def obtener_turno(id: int, db: Session = Depends(get_db)):
     
     return existe
 
-@router.post("/", response_model=Turno_response, status_code=status.HTTP_201_CREATED)
+@router.post("/", response_model=Turno_response, status_code=status.HTTP_201_CREATED, dependencies=[Depends(verificar_admin)])
 def crear_turno(turno: Turno_create, db: Session = Depends(get_db)):
-    
     nuevo_turno = Turno(
         id_usuario=turno.id_usuario,
         base_turno=turno.base_turno,
@@ -53,7 +51,7 @@ def crear_turno(turno: Turno_create, db: Session = Depends(get_db)):
 
     return nuevo_turno
 
-@router.put("/{id}", response_model=Turno_response, status_code=status.HTTP_200_OK)
+@router.put("/{id}", response_model=Turno_response, status_code=status.HTTP_200_OK, dependencies=[Depends(verificar_admin)])
 def editar_turno(id: int, turno: Turno_update, db: Session = Depends(get_db)):
     existe = db.query(Turno).filter(
         Turno.id_turno == id
@@ -77,7 +75,7 @@ def editar_turno(id: int, turno: Turno_update, db: Session = Depends(get_db)):
 
     return existe
 
-@router.patch("/{id}/cerrar", response_model=Turno_response, status_code=status.HTTP_200_OK)
+@router.patch("/{id}/cerrar", response_model=Turno_response, status_code=status.HTTP_200_OK, dependencies=[Depends(verificar_admin)])
 def cerrar_turno(id: int, turno: Turno_close, db: Session = Depends(get_db)):
     existe = db.query(Turno).filter(
         Turno.id_turno == id
@@ -97,7 +95,7 @@ def cerrar_turno(id: int, turno: Turno_close, db: Session = Depends(get_db)):
 
     return existe
 
-@router.patch("/{id}/egreso", response_model=Turno_response, status_code=status.HTTP_200_OK)
+@router.patch("/{id}/egreso", response_model=Turno_response, status_code=status.HTTP_200_OK, dependencies=[Depends(verificar_admin)])
 def registrar_egreso(id: int, egreso: Turno_egreso, db: Session = Depends(get_db)):
     existe = db.query(Turno).filter(
         Turno.id_turno == id
@@ -121,7 +119,7 @@ def registrar_egreso(id: int, egreso: Turno_egreso, db: Session = Depends(get_db
 
     return existe
 
-@router.delete("/{id}", status_code=status.HTTP_200_OK)
+@router.delete("/{id}", status_code=status.HTTP_200_OK, dependencies=[Depends(verificar_admin)])
 def eliminar_turno(id: int, db: Session = Depends(get_db)):
     existe = db.query(Turno).filter(
         Turno.id_turno == id

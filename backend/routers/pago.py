@@ -40,6 +40,7 @@ def obtener_pago(id: int, db: Session = Depends(get_db)):
     return existe
 
 @router.post("/", response_model=Pago_response, status_code=status.HTTP_201_CREATED)
+@router.post("/", response_model=Pago_response, status_code=status.HTTP_201_CREATED)
 def crear_pago(pago: Pago_create, db: Session = Depends(get_db)):
 
     pedido = db.query(Pedido).filter(
@@ -71,6 +72,15 @@ def crear_pago(pago: Pago_create, db: Session = Depends(get_db)):
 
     # Actualizar estado del pedido
     pedido.estado_pedido = "cancelado"
+
+    # Liberar mesa si el pedido era de mesa
+    from models.mesa import Mesa
+    if pedido.id_mesa:
+        mesa = db.query(Mesa).filter(
+            Mesa.id_mesa == pedido.id_mesa
+        ).first()
+        if mesa:
+            mesa.estado = "vacia"
 
     # Actualizar ingresos del turno activo
     turno = db.query(Turno).filter(
