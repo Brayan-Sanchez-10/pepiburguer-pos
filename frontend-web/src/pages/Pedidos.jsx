@@ -36,6 +36,10 @@ function Pedidos() {
 
     useEffect(() => {
         cargarDatos()
+        const interval = setInterval(() => {
+            cargarDatos()
+        }, 15000)
+        return () => clearInterval(interval)
     }, [])
 
     const cargarDatos = async () => {
