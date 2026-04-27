@@ -23,12 +23,6 @@ class _NuevoPedidoScreenState extends State<NuevoPedidoScreen> {
   bool creando = false;
 
   int? _mesaArgumentoId;
-  int? _mesaArgumentoNumero;
-
-  String nombreCliente = '';
-  String direccionCliente = '';
-  String barrioCliente = '';
-  String celularCliente = '';
 
   int? idTurno;
 
@@ -50,7 +44,6 @@ class _NuevoPedidoScreenState extends State<NuevoPedidoScreen> {
     final mesa = ModalRoute.of(context)?.settings.arguments as Map?;
     if (mesa != null && _mesaArgumentoId == null) {
       _mesaArgumentoId = mesa['id_mesa'];
-      _mesaArgumentoNumero = mesa['numero_mesa'];
       tipoPedido = 'mesa';
     }
   }
@@ -168,13 +161,22 @@ class _NuevoPedidoScreenState extends State<NuevoPedidoScreen> {
       }
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Pedido #${pedido['id_pedido']} creado exitosamente'),
-            backgroundColor: Colors.green,
-          ),
+        Navigator.pushReplacementNamed(
+          context,
+          '/recibo_pedido',
+          arguments: {
+            'pedido': pedido,
+            'productos': List<Map<String, dynamic>>.from(productosSeleccionados),
+            'tipoPedido': tipoPedido,
+            'nombreMesa': mesaSeleccionada != null
+                ? 'Mesa ${mesaSeleccionada['numero_mesa']}'
+                : null,
+            'nombreCliente': _nombreController.text,
+            'direccionCliente': _direccionController.text,
+            'barrioCliente': _barrioController.text,
+            'celularCliente': _celularController.text,
+          },
         );
-        Navigator.pop(context);
       }
     } else {
       setState(() => creando = false);
@@ -281,7 +283,7 @@ class _NuevoPedidoScreenState extends State<NuevoPedidoScreen> {
                                           color: seleccionada ? null : const Color(0xFFF1F3F5),
                                           borderRadius: BorderRadius.circular(10),
                                           border: Border.all(
-                                            color: seleccionada ? Colors.transparent : const Color(0xFFDDD),
+                                            color: seleccionada ? Colors.transparent : const Color(0xFFDDDDDD),
                                           ),
                                         ),
                                         child: Center(
@@ -492,7 +494,7 @@ class _NuevoPedidoScreenState extends State<NuevoPedidoScreen> {
                                           fillColor: Colors.white,
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(8),
-                                            borderSide: const BorderSide(color: Color(0xFFDDD)),
+                                            borderSide: const BorderSide(color: Color(0xFFDDDDDD)),
                                           ),
                                         ),
                                       ),

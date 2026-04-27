@@ -4,6 +4,7 @@ import 'screens/login_screen.dart';
 import 'screens/mesas_screen.dart';
 import 'screens/nuevo_pedido_screen.dart';
 import 'screens/pedidos_screen.dart';
+import 'screens/recibo_pedido_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,6 +33,19 @@ class MyApp extends StatelessWidget {
         '/mesas': (context) => const MesasScreen(),
         '/nuevo_pedido': (context) => const NuevoPedidoScreen(),
         '/pedidos': (context) => const PedidosScreen(),
+        '/recibo_pedido': (context) {
+          final args = ModalRoute.of(context)!.settings.arguments as Map;
+          return ReciboPedidoScreen(
+            pedido: args['pedido'],
+            productos: List<Map<String, dynamic>>.from(args['productos']),
+            tipoPedido: args['tipoPedido'],
+            nombreMesa: args['nombreMesa'],
+            nombreCliente: args['nombreCliente'],
+            direccionCliente: args['direccionCliente'],
+            barrioCliente: args['barrioCliente'],
+            celularCliente: args['celularCliente'],
+          );
+        },
       },
     );
   }
