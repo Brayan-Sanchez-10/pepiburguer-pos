@@ -8,8 +8,8 @@ from middleware.auth import verificar_token, verificar_admin
 router = APIRouter(
     prefix="/mesas",
     tags=["Mesas"],
-    dependencies = [Depends(verificar_token)]
-)
+    ##dependencies = [Depends(verificar_token)]
+)  
 
 @router.get("/", response_model = list[Mesa_response], status_code=status.HTTP_200_OK)
 def obtener_mesas(db: Session= Depends(get_db)):

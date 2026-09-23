@@ -9,7 +9,7 @@ from models.mesa import Mesa
 router = APIRouter(
     prefix="/pedidos",
     tags=["Pedidos"],
-    dependencies=[Depends(verificar_token)]
+    #dependencies=[Depends(verificar_token)]
 )
 
 @router.get("/", response_model= list[Pedido_response], status_code= status.HTTP_200_OK)
